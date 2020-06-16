@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="atalho">
-            <a href link-ajax="spa/parte1.html" destino=".conteudo">parte 1</a>
+            <a href link-ajax="spa/calculadora.html" destino=".conteudo">Calculadora</a>
             <a href link-ajax="spa/parte2.html" destino=".conteudo">parte 2</a>
             <a href link-ajax="spa/parte3.html" destino=".conteudo">parte 3</a>
             <a href link-ajax="spa/parte4.html" destino=".conteudo">parte 4</a>
@@ -29,5 +29,76 @@
     </div>
 
     <script src="spa/spaScript.js"></script>
+        
+    <script>
+        let displayBuffer = "" // valores concatenados da variavel 'let valor'
+        let valor = "" // Valor do botao pressionado
+        let valoresOperacao = [] // [0] -> primeiro valor, [1] -> sinal operação, [2] -> segundo valor
+        let result 
+        
+        function showDisplay(valor){
+            const display = document.querySelector('.display')
+            displayBuffer = displayBuffer.concat(valor) // Salvar o valor toda vez que for adicionado um novo
+            display.innerHTML = displayBuffer
+        }
+
+        function clearAll(){
+            displayBuffer = ""
+            valor = ""
+            valoresOperacao = []
+            showDisplay(displayBuffer)
+        }
+
+        function operationsValue(sinal){
+            showDisplay(sinal)
+            if(displayBuffer.split(sinal)[0] == ""){  // Verifica se antes do sinal tem numero, caso nao, o sinal vai concatenar com o proximo numero
+                valor = "".concat(sinal)
+            }else{
+                valoresOperacao[0] = valor
+                valoresOperacao[1] = sinal
+                valor = ""
+            }
+        }
+
+        function pressNumber(valorNumero){
+            valor = valor.concat(valorNumero)
+            showDisplay(valorNumero)
+        }
+
+        function pressPoint(){
+            valor = valor.concat('.')
+            showDisplay('.')
+        }
+
+        function pressEqual(){
+            const valor1 = Number(valoresOperacao[0])
+            const valor2 = Number(valor)
+
+            switch(valoresOperacao[1]){
+                case '+':
+                    result = valor1 + valor2
+                    break
+                case '-':
+                    result = valor1 - valor2
+                    break
+                case 'x':
+                    result = valor1 * valor2
+                    break
+                case '/':
+                    result = valor1 / valor2
+                    break
+            }
+            let saveValor = result // Salvando o resultado para quando for apagado todos os valores seja adicionado como 'valor1' na operacao
+            clearAll()
+            
+            if(!Number.isInteger(result)){
+                showDisplay(result.toFixed(2))
+            }else{
+                showDisplay(result)
+            }
+            valor = saveValor
+        }
+
+    </script>
 </body>
 </html>

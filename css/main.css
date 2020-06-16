@@ -63,6 +63,9 @@ body {
 
 .conteudo {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     height: 500px;
     border: solid 5px lightgray;
