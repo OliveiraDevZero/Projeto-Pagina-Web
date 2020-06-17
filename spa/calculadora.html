@@ -7,21 +7,21 @@
 </head>
 <body>
 
-<p>Calcule apenas dois números por vez</p>
+<p>Calculate only two numbers at a time</p>
 
 <div class="calculadora">
 
     <div class="display">
-        Calcule
+        Calculate
     </div>
 
     <div class="buttons">
 
         <div class="numeros">
             <div class="separacao">
-                <button value="1" onclick="pressNumber(this.value)">1</button>
-                <button value="2" onclick="pressNumber(this.value)">2</button>
-                <button value="3" onclick="pressNumber(this.value)">3</button>
+                <button value="7" onclick="pressNumber(this.value)">7</button>
+                <button value="8" onclick="pressNumber(this.value)">8</button>
+                <button value="9" onclick="pressNumber(this.value)">9</button>
             </div>
             <div class="separacao">
                 <button value="4" onclick="pressNumber(this.value)">4</button>
@@ -29,23 +29,23 @@
                 <button value="6" onclick="pressNumber(this.value)">6</button>
             </div>
             <div class="separacao">
-                <button value="7" onclick="pressNumber(this.value)">7</button>
-                <button value="8" onclick="pressNumber(this.value)">8</button>
-                <button value="9" onclick="pressNumber(this.value)">9</button>
+                <button value="1" onclick="pressNumber(this.value)">1</button>
+                <button value="2" onclick="pressNumber(this.value)">2</button>
+                <button value="3" onclick="pressNumber(this.value)">3</button>
             </div>
             <div class="separacao">
-                <button value="0" onclick="showDisplay(this.value)">0</button>
-                <button value="." onclick="pressPoint()">.</button>
+                <button value="0" onclick="pressNumber(this.value)">0</button>
+                <button value="." onclick="pressNumber(this.value)">.</button>
                 <button onclick="pressEqual()">=</button>
             </div>
         </div>
 
         <div class="operacoes">
             <button onclick="clearAll()">c</button>
-            <button value="+" onclick="operationsValue(this.value)">+</button>
-            <button value="-" onclick="operationsValue(this.value)">-</button>
-            <button value="x" onclick="operationsValue(this.value)">x</button>
-            <button value="/" onclick="operationsValue(this.value)">/</button>
+            <button value="+" onclick="operationSignal(this.value)">+</button>
+            <button value="-" onclick="operationSignal(this.value)">-</button>
+            <button value="x" onclick="operationSignal(this.value)">x</button>
+            <button value="/" onclick="operationSignal(this.value)">/</button>
         </div>
 
     </div>
@@ -67,6 +67,8 @@
         width: 350px;
         height: 450px;
         border: solid 1px #000;
+
+        background-color: #fff
     }
     .display {
         width: 100%;
@@ -74,7 +76,7 @@
 
         border-bottom: solid 1px #000;
 
-        font-size: 35px;
+        font-size: 30px;
         display: flex;
         justify-content: center;
         align-items: center;

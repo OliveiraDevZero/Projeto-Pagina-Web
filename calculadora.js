@@ -1,75 +1,88 @@
 let displayBuffer = "" // valores concatenados da variavel 'let valor'
-let valor = "" // Valor do botao pressionado
-let valores = ["", "", ""] // [0] -> primeiro valor, [1] -> sinal operação, [2] -> segundo valor
+let pressedValues = "" // Valor do botao pressionado
+let values = [] // [0] -> primeiro valor, [1] -> sinal operação, [2] -> segundo valor
+console.log(values)
+let lastSignal = ""
 let result 
         
-function showDisplay(valor){
+function showDisplay(pressedValues){
     const display = document.querySelector('.display')
-    displayBuffer = displayBuffer.concat(valor) // Salvar o valor toda vez que for adicionado um novo
+    displayBuffer += pressedValues 
     display.innerHTML = displayBuffer
+}
+
+function pressNumber(number){
+    pressedValues = pressedValues.concat(number)
+    showDisplay(number)
 }
 
 function clearAll(){
     displayBuffer = ""
-    valor = ""
-    valores = ["", "", ""]
+    pressedValues = ""
+    lastSignal = undefined
+    values = []
     showDisplay(displayBuffer)
 }
 
-function operationsValue(sinal){
-    showDisplay(sinal)
-    if(valores[0] == sinal){
-        clearAll()
-        showDisplay('I can´t calculate this')
-        time()
-    }else{
-        if(displayBuffer.split(sinal)[0] === ""){
-            valores[0] = "" + sinal         
-        }else if(displayBuffer.split(sinal)[0] !== "" || displayBuffer.split(valor)[0] !== ""){
-            valores[0] += valor
-            valores[1] = sinal
-            valor = ""
+function operationSignal(signal){
+    if(values[1] === undefined){
+        showDisplay(signal)
+        if(signal === "-" && displayBuffer.split(signal)[0] === ""){
+            if(lastSignal == signal){
+                values[0] = pressedValues
+                values[1] = signal
+                pressedValues = ""
+                lastSignal = ""
+            }else{
+                pressedValues = pressedValues + signal
+                lastSignal = signal
+            }       
+        }else if(displayBuffer.split(' ')[0] === "+"){
+            clearAll()
+            showDisplay('The first value is already positive')
+            errorTimer(1500)
+        }else if(displayBuffer.split(" ")[0] === '/' || displayBuffer.split(" ")[0] === 'x'){
+            clearAll()
+            showDisplay('I can´t calculate it')
+            errorTimer(1000)
+        }else{
+            values[0] = pressedValues
+            values[1] = signal
+            pressedValues = ""
         }
     }
-    
-}
-function time() {setTimeout(() => {clearAll()}, 1800)}
-
-function pressNumber(valorNumero){
-    valor = valor.concat(valorNumero)
-    showDisplay(valorNumero)
-}
-
-function pressPoint(){
-    valor = valor.concat('.')
-    showDisplay('.')
 }
 
 function pressEqual(){
-    const valor1 = Number(valores[0])
-    const valor2 = Number(valor)    
-    switch(valores[1]){
-        case '+':
-            result = valor1 + valor2
+    let operationValue1 = Number(values[0])
+    let operationValue2 = Number(pressedValues)
+    switch(values[1]){
+        case "+":
+            result = operationValue1 + operationValue2
             break
-        case '-':
-            result = valor1 - valor2
+        case "-":
+            result = operationValue1 - operationValue2
             break
-        case 'x':
-            result = valor1 * valor2
+        case "x":
+            result = operationValue1 * operationValue2
             break
-        case '/':
-            result = valor1 / valor2
+        case "/":
+            result = operationValue1 / operationValue2 
             break
-        }
-    
-    let saveValor = result // Salvando o resultado para quando for apagado todos os valores seja adicionado como 'valor1' na operacao
+    }
     clearAll()
-    
-    if(!Number.isInteger(result)){
+    if(result == 0){
+        showDisplay(result)
+        errorTimer(1000)
+    }else if(!Number.isInteger(result)){
+        pressedValues = result.toFixed(2)
         showDisplay(result.toFixed(2))
-    }else{
+    }else {
+        pressedValues = result
         showDisplay(result)
     }
-    valor = saveValor
+}
+
+function errorTimer(time){
+    setTimeout(clearAll, time)
 }
